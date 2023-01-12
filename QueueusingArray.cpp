@@ -1,74 +1,67 @@
 #include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-class QueueArrays{
+class Queue {
     
-    int firstIndex;
-    int nextIndex;
+    int* arr;
+    int qfront;
+    int rear;
     int size;
-    int *arr;
-    int capacity;
-
 public:
-QueueArrays(){
-
-    arr = new int[10];
-    fistIndex = 0;
-    nextIndex = 0;
-    capacity = 10;
-    size = 0;
-
-}
-
-void enqueue(int data){
-
-    if(size == capacity){
-       cout << "Queue Overflowed\n" << endl;
-       return;
+    Queue() {
+        
+        size = 100001;
+        arr = new int[size];
+        qfront = 0;
+        rear = 0;
     }
-    arr[nextIndex] = data;
-    size += 1;
-    nextIndex = (nextIndex+1)% capacity;    
-}
 
-int dequeue(){
+    /*----------------- Public Functions of Queue -----------------*/
 
-    if(size == 0){
-        cout << "Queue Underflow\n" << endl;
-        return -1;
+    bool isEmpty() {
+        if(qfront== rear){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
-    int tobeDeleted = arr[firstIndex];
-    firstIndex = (firstIndex+1)% capacity;
-    size -= 1;
 
-}
+    void enqueue(int data) {
+       if(rear == size){
+           cout << "Queue Overflow\n" << endl;
+       }
+        arr[rear] = data;
+        rear ++;
+        size ++;
+    }
 
-int front(){
-  if(size == 0){
-     cout << "Queue Underflow\n" << endl;
-    return -1;
-  }
-  return arr[firstIndex];
-}
-
-int size(){
-    return size;
-}
-
-bool isEmpty(){
-   return size == 0;
-}
-
+    int dequeue() {
+      if(qfront== rear){
+         return -1;
+      }
+       else{
+           int ans = arr[qfront];
+        arr[qfront] = -1;
+        qfront ++;
+        size--;
+          if(qfront== rear){
+              qfront = 0;
+              rear = 0;
+            }
+            return ans;
+        }
+       
+    }
+    
+    int front() {
+        if(qfront== rear){
+            return -1;
+        }
+        else{
+             return arr[qfront];
+        }
+    }
 };
-
-int main(){
-
-    enqueue(10);
-    enqueue(20);
-    enqueue(30);
-    enqueue(40);
-
-    cout << arr << endl;
-
-}
 
